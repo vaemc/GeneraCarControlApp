@@ -12,8 +12,8 @@ import at.markushi.ui.CircleButton
 import com.google.android.material.textfield.TextInputEditText
 import okhttp3.*
 
-class MainActivity : AppCompatActivity(), View.OnTouchListener {
-    private var webSocket:WebSocket?=null
+class MainActivity : AppCompatActivity(), View.OnTouchListener, View.OnClickListener {
+    private var webSocket: WebSocket? = null
     private val etWs: TextInputEditText by lazy { findViewById(R.id.et_ws) }
     private val btnConnect: Button by lazy { findViewById(R.id.btn_connect) }
 
@@ -29,25 +29,26 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
     private val btnBackwardLeft: CircleButton by lazy { findViewById(R.id.btn_backwardLeft) }
     private val btnBackwardRight: CircleButton by lazy { findViewById(R.id.btn_backwardRight) }
 
+
+    override fun onClick(v: View?) {
+        if (webSocket == null) {
+            Toast.makeText(this, "请先连接小车", Toast.LENGTH_SHORT).show()
+        }
+    }
+
     override fun onTouch(view: View, motionEvent: MotionEvent): Boolean {
-        when (motionEvent.action){
-            MotionEvent.ACTION_DOWN -> {
-                if(webSocket!=null){
+        if (webSocket != null) {
+            when (motionEvent.action) {
+                MotionEvent.ACTION_DOWN -> {
                     webSocket?.send(view.resources.getResourceName(view.id).split("_")[1])
-                }else{
-                    Toast.makeText(this,"请先连接小车" , Toast.LENGTH_SHORT).show()
                 }
-            }
-            MotionEvent.ACTION_UP -> {
-                if(webSocket!=null){
+
+                MotionEvent.ACTION_UP -> {
                     webSocket?.send("stop")
-                }else{
-                    Toast.makeText(this,"请先连接小车" , Toast.LENGTH_SHORT).show()
                 }
             }
         }
-
-        return true
+        return false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +57,7 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
 
 
         val sharedPref = this?.getPreferences(Context.MODE_PRIVATE)
-        etWs.setText(sharedPref?.getString("ws",""))
+        etWs.setText(sharedPref?.getString("ws", ""))
 
         btnForward.setOnTouchListener(this)
         btnForwardLeft.setOnTouchListener(this)
@@ -69,12 +70,23 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
         btnBackwardLeft.setOnTouchListener(this)
         btnBackwardRight.setOnTouchListener(this)
 
+        btnForward.setOnClickListener(this)
+        btnForwardLeft.setOnClickListener(this)
+        btnForwardRight.setOnClickListener(this)
+        btnLeft.setOnClickListener(this)
+        btnCounterclockwise.setOnClickListener(this)
+        btnClockwise.setOnClickListener(this)
+        btnRight.setOnClickListener(this)
+        btnBackward.setOnClickListener(this)
+        btnBackwardLeft.setOnClickListener(this)
+        btnBackwardRight.setOnClickListener(this)
+
         btnConnect.setOnClickListener {
-            var ws:String=etWs.text.toString()
+            var ws: String = etWs.text.toString()
             sharedPref?.edit()?.putString("ws", ws)?.apply()
 
-            if(ws.isNullOrBlank()){
-                Toast.makeText(this,"请输入地址" , Toast.LENGTH_SHORT).show()
+            if (ws.isNullOrBlank()) {
+                Toast.makeText(this, "请输入地址", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -83,7 +95,7 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
             webSocket = client.newWebSocket(request, object : WebSocketListener() {
                 override fun onOpen(webSocket: WebSocket, response: Response) {
                     runOnUiThread {
-                        Toast.makeText(this@MainActivity,"连接小车成功" , Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this@MainActivity, "连接小车成功", Toast.LENGTH_SHORT).show()
                     }
                 }
 
@@ -101,6 +113,7 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
             })
         }
     }
+
 
 }
 
