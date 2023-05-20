@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="@string/app_name"
+        app:titleTextColor="@color/white"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_below="@id/toolbar"
+        android:id="@+id/card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:cardCornerRadius="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="WebSocket地址">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/et_ws"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_connect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="连接小车"
+                android:textColor="#fff" />
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <RelativeLayout
+        android:layout_below="@id/card"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        >
+
+        <at.markushi.ui.CircleButton
+            android:id="@+id/btn_forward"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:padding="18dp"
+            android:src="@drawable/ic_forward"
+            app:cb_color="#80000000"
+            app:cb_pressedRingWidth="2dp" />
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_forwardLeft"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:padding="18dp"
+            android:src="@drawable/ic_forward_left"
+            app:cb_color="#80000000"
+            app:cb_pressedRingWidth="2dp" />
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_forwardRight"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:padding="18dp"
+            android:src="@drawable/ic_forward_right"
+            app:cb_color="#80000000"
+            app:cb_pressedRingWidth="2dp" />
+
+        <LinearLayout
+            android:id="@+id/line"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+
+            android:orientation="horizontal">
+
+            <at.markushi.ui.CircleButton
+
+                android:id="@+id/btn_left"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:padding="18dp"
+                android:src="@drawable/ic_left"
+                app:cb_color="#80000000"
+                app:cb_pressedRingWidth="2dp" />
+
+            <at.markushi.ui.CircleButton
+                android:id="@+id/btn_counterclockwise"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+
+                android:padding="18dp"
+                android:src="@drawable/ic_counterclockwise"
+                app:cb_color="#80000000"
+
+                app:cb_pressedRingWidth="2dp" />
+
+            <at.markushi.ui.CircleButton
+
+                android:id="@+id/btn_clockwise"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+
+                android:padding="18dp"
+                android:src="@drawable/ic_clockwise"
+                app:cb_color="#80000000"
+                app:cb_pressedRingWidth="2dp" />
+
+            <at.markushi.ui.CircleButton
+
+                android:id="@+id/btn_right"
+                android:layout_width="95dp"
+                android:layout_height="95dp"
+
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:padding="18dp"
+                android:src="@drawable/ic_right"
+                app:cb_color="#80000000"
+                app:cb_pressedRingWidth="2dp" />
+
+
+        </LinearLayout>
+
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_backward"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:padding="18dp"
+            android:src="@drawable/ic_backward"
+            app:cb_color="#80000000"
+            app:cb_pressedRingWidth="2dp" />
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_backwardLeft"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:padding="18dp"
+            android:src="@drawable/ic_backward_left"
+            app:cb_color="#80000000"
+            app:cb_pressedRingWidth="2dp" />
+
+        <at.markushi.ui.CircleButton
+
+            android:id="@+id/btn_backwardRight"
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:padding="18dp"
+            android:src="@drawable/ic_backward_right"
+            app:cb_color="#80000000"
+            app:cb_pressedRingWidth="2dp" />
+
+    </RelativeLayout>
+
+
+
+</RelativeLayout>
