@@ -2,17 +2,23 @@ package com.vaemc.generacarcontrolapp
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.MotionEvent
 import android.view.View
 import android.widget.Button
+import android.widget.SeekBar
+import android.widget.TextView
 import android.widget.Toast
 import android.widget.Toolbar
 import androidx.appcompat.app.AppCompatActivity
 import at.markushi.ui.CircleButton
 import com.google.android.material.textfield.TextInputEditText
+import com.google.gson.Gson
 import okhttp3.*
 
 class MainActivity : AppCompatActivity(), View.OnTouchListener, View.OnClickListener {
+    private val TAG = "MainActivity"
+
     private var webSocket: WebSocket? = null
     private val etWs: TextInputEditText by lazy { findViewById(R.id.et_ws) }
     private val btnConnect: Button by lazy { findViewById(R.id.btn_connect) }
@@ -28,11 +34,17 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, View.OnClickList
     private val btnBackward: CircleButton by lazy { findViewById(R.id.btn_backward) }
     private val btnBackwardLeft: CircleButton by lazy { findViewById(R.id.btn_backwardLeft) }
     private val btnBackwardRight: CircleButton by lazy { findViewById(R.id.btn_backwardRight) }
+    private val speed: SeekBar by lazy { findViewById(R.id.speed) }
+    private val servo1: SeekBar by lazy { findViewById(R.id.servo1) }
+    private val speedText: TextView by lazy { findViewById(R.id.speedText) }
+    private val servo1Text: TextView by lazy { findViewById(R.id.servo1Text) }
 
+
+    data class Model<T>(val dp: String, val value: T)
 
     override fun onClick(v: View?) {
         if (webSocket == null) {
-            Toast.makeText(this, "请先连接小车", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "请先连接设备", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -41,10 +53,21 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, View.OnClickList
             when (motionEvent.action) {
                 MotionEvent.ACTION_DOWN -> {
                     webSocket?.send(view.resources.getResourceName(view.id).split("_")[1])
+                    val json = Gson().toJson(
+                        Model(
+                            "direction", view.resources.getResourceName(view.id).split("_")[1]
+                        )
+                    )
+                    webSocket?.send(json)
                 }
 
                 MotionEvent.ACTION_UP -> {
-                    webSocket?.send("stop")
+                    val json = Gson().toJson(
+                        Model(
+                            "direction", "stop"
+                        )
+                    )
+                    webSocket?.send(json)
                 }
             }
         }
@@ -112,6 +135,62 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, View.OnClickList
                 }
             })
         }
+
+        speed.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seek: SeekBar, progress: Int, fromUser: Boolean) {
+
+            }
+
+            override fun onStartTrackingTouch(seek: SeekBar) {
+
+
+            }
+
+            override fun onStopTrackingTouch(seek: SeekBar) {
+                speedText.text = seek.progress.toString()
+                if (webSocket == null) {
+                    Toast.makeText(this@MainActivity, "请先连接设备", Toast.LENGTH_SHORT).show()
+                } else {
+                    val json = Gson().toJson(
+                        Model(
+                            "speed", seek.progress
+                        )
+                    )
+                    webSocket?.send(json)
+                }
+
+
+            }
+        })
+
+        servo1.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+
+            override fun onProgressChanged(seek: SeekBar, progress: Int, fromUser: Boolean) {
+                servo1Text.text = progress.toString()
+                if (webSocket == null) {
+                    Toast.makeText(this@MainActivity, "请先连接设备", Toast.LENGTH_SHORT).show()
+                } else {
+                    val json = Gson().toJson(
+                        Model(
+                            "speed", progress
+                        )
+                    )
+                    webSocket?.send(json)
+                }
+
+            }
+
+            override fun onStartTrackingTouch(seek: SeekBar) {
+
+
+            }
+
+            override fun onStopTrackingTouch(seek: SeekBar) {
+
+            }
+        })
+
     }
 
 
