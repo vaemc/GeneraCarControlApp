@@ -173,7 +173,7 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, View.OnClickList
                 } else {
                     val json = Gson().toJson(
                         Model(
-                            "speed", progress
+                            "servo", progress
                         )
                     )
                     webSocket?.send(json)

@@ -89,7 +89,7 @@
                 android:layout_weight="2"
                 android:max="255"
                 android:min="0"
-                android:progress="120" />
+                android:progress="255" />
 
             <TextView
                 android:id="@+id/speedText"
@@ -97,7 +97,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_weight="5"
-                android:text="120" />
+                android:text="255" />
         </LinearLayout>
 
         <LinearLayout
