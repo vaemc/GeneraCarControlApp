@@ -105,13 +105,16 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener, View.OnClickList
         btnBackwardRight.setOnClickListener(this)
 
         btnConnect.setOnClickListener {
-            var ws: String = etWs.text.toString()
-            sharedPref?.edit()?.putString("ws", ws)?.apply()
+
+            var ws: String = etWs.text.toString().trim().replace(" ", "")
+            etWs.setText(ws);
 
             if (ws.isNullOrBlank()) {
                 Toast.makeText(this, "请输入地址", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
+
+            sharedPref?.edit()?.putString("ws", ws)?.apply()
 
             val client = OkHttpClient()
             val request = Request.Builder().url(ws).build()
